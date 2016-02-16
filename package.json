@@ -1,0 +1,14 @@
+{
+	"name": "derelict-vulkan",
+	"license": "BSL-1.0",
+	"description": "A dynamic binding to the vulkan api.",
+	"copyright": "Copyright © 2016, Felix Hufnagel",
+	"authors": ["Felix Hufnagel"],
+	
+	"targetPath": "bin",
+	"targetType": "library",
+	
+	"dependencies": {
+		"derelict-util" : ">=1.0.0"
+	}
+}
