@@ -29,7 +29,7 @@ module derelict.vulkan.functions;
 
 private
 {
-    import derelict.vulkan.types;
+    import derelict.vulkan.vk;
 }
 
 __gshared
@@ -85,61 +85,7 @@ __gshared
 	PFN_vkCreateEvent vkCreateEvent;
 	PFN_vkDestroyEvent vkDestroyEvent;
 	PFN_vkGetEventStatus vkGetEventStatus;
-	PFN_vkSetEvent vkSetEvent;
-	PFN_vkAllocationFunction vkAllocationFunction;
-	PFN_vkReallocationFunction vkReallocationFunction;
-	PFN_vkFreeFunction vkFreeFunction;
-	PFN_vkInternalAllocationNotification vkInternalAllocationNotification;
-	PFN_vkInternalFreeNotification vkInternalFreeNotification;
-	PFN_vkVoidFunction vkVoidFunction;
-	PFN_vkCreateInstance vkCreateInstance;
-	PFN_vkDestroyInstance vkDestroyInstance;
-	PFN_vkEnumeratePhysicalDevices vkEnumeratePhysicalDevices;
-	PFN_vkGetPhysicalDeviceFeatures vkGetPhysicalDeviceFeatures;
-	PFN_vkGetPhysicalDeviceFormatProperties vkGetPhysicalDeviceFormatProperties;
-	PFN_vkGetPhysicalDeviceImageFormatProperties vkGetPhysicalDeviceImageFormatProperties;
-	PFN_vkGetPhysicalDeviceProperties vkGetPhysicalDeviceProperties;
-	PFN_vkGetPhysicalDeviceQueueFamilyProperties vkGetPhysicalDeviceQueueFamilyProperties;
-	PFN_vkGetPhysicalDeviceMemoryProperties vkGetPhysicalDeviceMemoryProperties;
-	PFN_vkGetInstanceProcAddr vkGetInstanceProcAddr;
-	PFN_vkGetInstanceProcAddr vkGetInstanceProcAddr;
-	PFN_vkGetDeviceProcAddr vkGetDeviceProcAddr;
-	PFN_vkGetDeviceProcAddr vkGetDeviceProcAddr;
-	PFN_vkCreateDevice vkCreateDevice;
-	PFN_vkDestroyDevice vkDestroyDevice;
-	PFN_vkEnumerateInstanceExtensionProperties vkEnumerateInstanceExtensionProperties;
-	PFN_vkEnumerateDeviceExtensionProperties vkEnumerateDeviceExtensionProperties;
-	PFN_vkEnumerateInstanceLayerProperties vkEnumerateInstanceLayerProperties;
-	PFN_vkEnumerateDeviceLayerProperties vkEnumerateDeviceLayerProperties;
-	PFN_vkGetDeviceQueue vkGetDeviceQueue;
-	PFN_vkQueueSubmit vkQueueSubmit;
-	PFN_vkQueueWaitIdle vkQueueWaitIdle;
-	PFN_vkDeviceWaitIdle vkDeviceWaitIdle;
-	PFN_vkAllocateMemory vkAllocateMemory;
-	PFN_vkFreeMemory vkFreeMemory;
-	PFN_vkMapMemory vkMapMemory;
-	PFN_vkUnmapMemory vkUnmapMemory;
-	PFN_vkFlushMappedMemoryRanges vkFlushMappedMemoryRanges;
-	PFN_vkInvalidateMappedMemoryRanges vkInvalidateMappedMemoryRanges;
-	PFN_vkGetDeviceMemoryCommitment vkGetDeviceMemoryCommitment;
-	PFN_vkBindBufferMemory vkBindBufferMemory;
-	PFN_vkBindImageMemory vkBindImageMemory;
-	PFN_vkGetBufferMemoryRequirements vkGetBufferMemoryRequirements;
-	PFN_vkGetImageMemoryRequirements vkGetImageMemoryRequirements;
-	PFN_vkGetImageSparseMemoryRequirements vkGetImageSparseMemoryRequirements;
-	PFN_vkGetPhysicalDeviceSparseImageFormatProperties vkGetPhysicalDeviceSparseImageFormatProperties;
-	PFN_vkQueueBindSparse vkQueueBindSparse;
-	PFN_vkCreateFence vkCreateFence;
-	PFN_vkDestroyFence vkDestroyFence;
-	PFN_vkResetFences vkResetFences;
-	PFN_vkGetFenceStatus vkGetFenceStatus;
-	PFN_vkWaitForFences vkWaitForFences;
-	PFN_vkCreateSemaphore vkCreateSemaphore;
-	PFN_vkDestroySemaphore vkDestroySemaphore;
-	PFN_vkCreateEvent vkCreateEvent;
-	PFN_vkDestroyEvent vkDestroyEvent;
-	PFN_vkGetEventStatus vkGetEventStatus;
-	PFN_vkSetEvent vkSetEvent;
+	PFN_vkSetEvent vkSetEvent;	
 	PFN_vkResetEvent vkResetEvent;
 	PFN_vkCreateQueryPool vkCreateQueryPool;
 	PFN_vkDestroyQueryPool vkDestroyQueryPool;
@@ -231,6 +177,8 @@ __gshared
 	PFN_vkCmdNextSubpass vkCmdNextSubpass;
 	PFN_vkCmdEndRenderPass vkCmdEndRenderPass;
 	PFN_vkCmdExecuteCommands vkCmdExecuteCommands;
+	
+	
 	PFN_vkDestroySurfaceKHR vkDestroySurfaceKHR;
 	PFN_vkGetPhysicalDeviceSurfaceSupportKHR vkGetPhysicalDeviceSurfaceSupportKHR;
 	PFN_vkGetPhysicalDeviceSurfaceCapabilitiesKHR vkGetPhysicalDeviceSurfaceCapabilitiesKHR;
@@ -249,17 +197,29 @@ __gshared
 	PFN_vkGetDisplayPlaneCapabilitiesKHR vkGetDisplayPlaneCapabilitiesKHR;
 	PFN_vkCreateDisplayPlaneSurfaceKHR vkCreateDisplayPlaneSurfaceKHR;
 	PFN_vkCreateSharedSwapchainsKHR vkCreateSharedSwapchainsKHR;
+	version(VK_USE_PLATFORM_XLIB_KHR) {
 	PFN_vkCreateXlibSurfaceKHR vkCreateXlibSurfaceKHR;
 	PFN_vkGetPhysicalDeviceXlibPresentationSupportKHR vkGetPhysicalDeviceXlibPresentationSupportKHR;
+	}
+	version(VK_USE_PLATFORM_XCB_KHR) {
 	PFN_vkCreateXcbSurfaceKHR vkCreateXcbSurfaceKHR;
 	PFN_vkGetPhysicalDeviceXcbPresentationSupportKHR vkGetPhysicalDeviceXcbPresentationSupportKHR;
+	}
+	version(VK_USE_PLATFORM_WAYLAND_KHR) {
 	PFN_vkCreateWaylandSurfaceKHR vkCreateWaylandSurfaceKHR;
 	PFN_vkGetPhysicalDeviceWaylandPresentationSupportKHR vkGetPhysicalDeviceWaylandPresentationSupportKHR;
+	}
+	version(VK_USE_PLATFORM_MIR_KHR) {
 	PFN_vkCreateMirSurfaceKHR vkCreateMirSurfaceKHR;
 	PFN_vkGetPhysicalDeviceMirPresentationSupportKHR vkGetPhysicalDeviceMirPresentationSupportKHR;
+	}
+	version(VK_USE_PLATFORM_ANDROID_KHR) {
 	PFN_vkCreateAndroidSurfaceKHR vkCreateAndroidSurfaceKHR;
+	}
+	version(VK_USE_PLATFORM_WIN32_KHR) {
 	PFN_vkCreateWin32SurfaceKHR vkCreateWin32SurfaceKHR;
 	PFN_vkGetPhysicalDeviceWin32PresentationSupportKHR vkGetPhysicalDeviceWin32PresentationSupportKHR;
+	}
 	PFN_vkDebugReportCallbackEXT vkDebugReportCallbackEXT;
 	PFN_vkCreateDebugReportCallbackEXT vkCreateDebugReportCallbackEXT;
 	PFN_vkDestroyDebugReportCallbackEXT vkDestroyDebugReportCallbackEXT;
