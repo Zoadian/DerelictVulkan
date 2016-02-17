@@ -27,13 +27,11 @@ DEALINGS IN THE SOFTWARE.
 */
 module derelict.vulkan.functions;
 
-private
-{
-    import derelict.vulkan.vk;
+private {
+	import derelict.vulkan.vk;
 }
 
-__gshared
-{
+__gshared {
 	PFN_vkAllocationFunction vkAllocationFunction;
 	PFN_vkReallocationFunction vkReallocationFunction;
 	PFN_vkFreeFunction vkFreeFunction;
@@ -85,7 +83,7 @@ __gshared
 	PFN_vkCreateEvent vkCreateEvent;
 	PFN_vkDestroyEvent vkDestroyEvent;
 	PFN_vkGetEventStatus vkGetEventStatus;
-	PFN_vkSetEvent vkSetEvent;	
+	PFN_vkSetEvent vkSetEvent;
 	PFN_vkResetEvent vkResetEvent;
 	PFN_vkCreateQueryPool vkCreateQueryPool;
 	PFN_vkDestroyQueryPool vkDestroyQueryPool;
@@ -177,8 +175,7 @@ __gshared
 	PFN_vkCmdNextSubpass vkCmdNextSubpass;
 	PFN_vkCmdEndRenderPass vkCmdEndRenderPass;
 	PFN_vkCmdExecuteCommands vkCmdExecuteCommands;
-	
-	
+
 	PFN_vkDestroySurfaceKHR vkDestroySurfaceKHR;
 	PFN_vkGetPhysicalDeviceSurfaceSupportKHR vkGetPhysicalDeviceSurfaceSupportKHR;
 	PFN_vkGetPhysicalDeviceSurfaceCapabilitiesKHR vkGetPhysicalDeviceSurfaceCapabilitiesKHR;
@@ -197,28 +194,28 @@ __gshared
 	PFN_vkGetDisplayPlaneCapabilitiesKHR vkGetDisplayPlaneCapabilitiesKHR;
 	PFN_vkCreateDisplayPlaneSurfaceKHR vkCreateDisplayPlaneSurfaceKHR;
 	PFN_vkCreateSharedSwapchainsKHR vkCreateSharedSwapchainsKHR;
-	version(VK_USE_PLATFORM_XLIB_KHR) {
-	PFN_vkCreateXlibSurfaceKHR vkCreateXlibSurfaceKHR;
-	PFN_vkGetPhysicalDeviceXlibPresentationSupportKHR vkGetPhysicalDeviceXlibPresentationSupportKHR;
+	version (VK_USE_PLATFORM_XLIB_KHR) {
+		PFN_vkCreateXlibSurfaceKHR vkCreateXlibSurfaceKHR;
+		PFN_vkGetPhysicalDeviceXlibPresentationSupportKHR vkGetPhysicalDeviceXlibPresentationSupportKHR;
 	}
-	version(VK_USE_PLATFORM_XCB_KHR) {
-	PFN_vkCreateXcbSurfaceKHR vkCreateXcbSurfaceKHR;
-	PFN_vkGetPhysicalDeviceXcbPresentationSupportKHR vkGetPhysicalDeviceXcbPresentationSupportKHR;
+	version (VK_USE_PLATFORM_XCB_KHR) {
+		PFN_vkCreateXcbSurfaceKHR vkCreateXcbSurfaceKHR;
+		PFN_vkGetPhysicalDeviceXcbPresentationSupportKHR vkGetPhysicalDeviceXcbPresentationSupportKHR;
 	}
-	version(VK_USE_PLATFORM_WAYLAND_KHR) {
-	PFN_vkCreateWaylandSurfaceKHR vkCreateWaylandSurfaceKHR;
-	PFN_vkGetPhysicalDeviceWaylandPresentationSupportKHR vkGetPhysicalDeviceWaylandPresentationSupportKHR;
+	version (VK_USE_PLATFORM_WAYLAND_KHR) {
+		PFN_vkCreateWaylandSurfaceKHR vkCreateWaylandSurfaceKHR;
+		PFN_vkGetPhysicalDeviceWaylandPresentationSupportKHR vkGetPhysicalDeviceWaylandPresentationSupportKHR;
 	}
-	version(VK_USE_PLATFORM_MIR_KHR) {
-	PFN_vkCreateMirSurfaceKHR vkCreateMirSurfaceKHR;
-	PFN_vkGetPhysicalDeviceMirPresentationSupportKHR vkGetPhysicalDeviceMirPresentationSupportKHR;
+	version (VK_USE_PLATFORM_MIR_KHR) {
+		PFN_vkCreateMirSurfaceKHR vkCreateMirSurfaceKHR;
+		PFN_vkGetPhysicalDeviceMirPresentationSupportKHR vkGetPhysicalDeviceMirPresentationSupportKHR;
 	}
-	version(VK_USE_PLATFORM_ANDROID_KHR) {
-	PFN_vkCreateAndroidSurfaceKHR vkCreateAndroidSurfaceKHR;
+	version (VK_USE_PLATFORM_ANDROID_KHR) {
+		PFN_vkCreateAndroidSurfaceKHR vkCreateAndroidSurfaceKHR;
 	}
-	version(VK_USE_PLATFORM_WIN32_KHR) {
-	PFN_vkCreateWin32SurfaceKHR vkCreateWin32SurfaceKHR;
-	PFN_vkGetPhysicalDeviceWin32PresentationSupportKHR vkGetPhysicalDeviceWin32PresentationSupportKHR;
+	version (VK_USE_PLATFORM_WIN32_KHR) {
+		PFN_vkCreateWin32SurfaceKHR vkCreateWin32SurfaceKHR;
+		PFN_vkGetPhysicalDeviceWin32PresentationSupportKHR vkGetPhysicalDeviceWin32PresentationSupportKHR;
 	}
 	PFN_vkDebugReportCallbackEXT vkDebugReportCallbackEXT;
 	PFN_vkCreateDebugReportCallbackEXT vkCreateDebugReportCallbackEXT;

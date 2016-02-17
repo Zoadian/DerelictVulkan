@@ -27,33 +27,28 @@ DEALINGS IN THE SOFTWARE.
 */
 module derelict.vulkan.vulkan;
 
-public
-{
-    import derelict.vulkan.vk;
-    import derelict.vulkan.functions;
+public {
+	import derelict.vulkan.vk;
+	import derelict.vulkan.functions;
 }
 
-private
-{
-    import derelict.util.loader;
-    import derelict.util.system;
+private {
+	import derelict.util.loader;
+	import derelict.util.system;
 
-    static if(Derelict_OS_Windows)
-        enum libNames = "vulkan.dll";
-    //~ else static if(Derelict_OS_Mac)
-        //~ enum libNames = "libglfw.3.dylib";
-    //~ else static if(Derelict_OS_Posix)
-        //~ enum libNames = "libglfw3.so,libglfw.so.3,/usr/local/lib/libglfw3.so,/usr/local/lib/libglfw.so.3";
-    else
-        static assert(0, "Need to implement vulkan libNames for this operating system.");
+	static if (Derelict_OS_Windows)
+		enum libNames = "vulkan.dll";
+	//~ else static if(Derelict_OS_Mac)
+	//~ enum libNames = "libglfw.3.dylib";
+	//~ else static if(Derelict_OS_Posix)
+	//~ enum libNames = "libglfw3.so,libglfw.so.3,/usr/local/lib/libglfw3.so,/usr/local/lib/libglfw.so.3";
+	else
+		static assert(0, "Need to implement vulkan libNames for this operating system.");
 }
 
-class DerelictVulkanLoader : SharedLibLoader
-{
-    protected
-    {
-        override void loadSymbols()
-        {		
+class DerelictVulkanLoader : SharedLibLoader {
+	protected {
+		override void loadSymbols() {
 			bindFunc(cast(void**)&vkAllocationFunction, "vkAllocationFunction");
 			bindFunc(cast(void**)&vkReallocationFunction, "vkReallocationFunction");
 			bindFunc(cast(void**)&vkFreeFunction, "vkFreeFunction");
@@ -249,7 +244,7 @@ class DerelictVulkanLoader : SharedLibLoader
 			bindFunc(cast(void**)&vkCmdNextSubpass, "vkCmdNextSubpass");
 			bindFunc(cast(void**)&vkCmdEndRenderPass, "vkCmdEndRenderPass");
 			bindFunc(cast(void**)&vkCmdExecuteCommands, "vkCmdExecuteCommands");
-			
+
 			bindFunc(cast(void**)&vkDestroySurfaceKHR, "vkDestroySurfaceKHR");
 			bindFunc(cast(void**)&vkGetPhysicalDeviceSurfaceSupportKHR, "vkGetPhysicalDeviceSurfaceSupportKHR");
 			bindFunc(cast(void**)&vkGetPhysicalDeviceSurfaceCapabilitiesKHR, "vkGetPhysicalDeviceSurfaceCapabilitiesKHR");
@@ -268,52 +263,48 @@ class DerelictVulkanLoader : SharedLibLoader
 			bindFunc(cast(void**)&vkGetDisplayPlaneCapabilitiesKHR, "vkGetDisplayPlaneCapabilitiesKHR");
 			bindFunc(cast(void**)&vkCreateDisplayPlaneSurfaceKHR, "vkCreateDisplayPlaneSurfaceKHR");
 			bindFunc(cast(void**)&vkCreateSharedSwapchainsKHR, "vkCreateSharedSwapchainsKHR");
-			version(VK_USE_PLATFORM_XLIB_KHR) {
-			bindFunc(cast(void**)&vkCreateXlibSurfaceKHR, "vkCreateXlibSurfaceKHR");
-			bindFunc(cast(void**)&vkGetPhysicalDeviceXlibPresentationSupportKHR, "vkGetPhysicalDeviceXlibPresentationSupportKHR");
+			version (VK_USE_PLATFORM_XLIB_KHR) {
+				bindFunc(cast(void**)&vkCreateXlibSurfaceKHR, "vkCreateXlibSurfaceKHR");
+				bindFunc(cast(void**)&vkGetPhysicalDeviceXlibPresentationSupportKHR, "vkGetPhysicalDeviceXlibPresentationSupportKHR");
 			}
-			version(VK_USE_PLATFORM_XCB_KHR) {
-			bindFunc(cast(void**)&vkCreateXcbSurfaceKHR, "vkCreateXcbSurfaceKHR");
-			bindFunc(cast(void**)&vkGetPhysicalDeviceXcbPresentationSupportKHR, "vkGetPhysicalDeviceXcbPresentationSupportKHR");
+			version (VK_USE_PLATFORM_XCB_KHR) {
+				bindFunc(cast(void**)&vkCreateXcbSurfaceKHR, "vkCreateXcbSurfaceKHR");
+				bindFunc(cast(void**)&vkGetPhysicalDeviceXcbPresentationSupportKHR, "vkGetPhysicalDeviceXcbPresentationSupportKHR");
 			}
-			version(VK_USE_PLATFORM_WAYLAND_KHR) {
-			bindFunc(cast(void**)&vkCreateWaylandSurfaceKHR, "vkCreateWaylandSurfaceKHR");
-			bindFunc(cast(void**)&vkGetPhysicalDeviceWaylandPresentationSupportKHR, "vkGetPhysicalDeviceWaylandPresentationSupportKHR");
+			version (VK_USE_PLATFORM_WAYLAND_KHR) {
+				bindFunc(cast(void**)&vkCreateWaylandSurfaceKHR, "vkCreateWaylandSurfaceKHR");
+				bindFunc(cast(void**)&vkGetPhysicalDeviceWaylandPresentationSupportKHR, "vkGetPhysicalDeviceWaylandPresentationSupportKHR");
 			}
-			version(VK_USE_PLATFORM_MIR_KHR) {
-			bindFunc(cast(void**)&vkCreateMirSurfaceKHR, "vkCreateMirSurfaceKHR");
-			bindFunc(cast(void**)&vkGetPhysicalDeviceMirPresentationSupportKHR, "vkGetPhysicalDeviceMirPresentationSupportKHR");
+			version (VK_USE_PLATFORM_MIR_KHR) {
+				bindFunc(cast(void**)&vkCreateMirSurfaceKHR, "vkCreateMirSurfaceKHR");
+				bindFunc(cast(void**)&vkGetPhysicalDeviceMirPresentationSupportKHR, "vkGetPhysicalDeviceMirPresentationSupportKHR");
 			}
-			version(VK_USE_PLATFORM_ANDROID_KHR) {
-			bindFunc(cast(void**)&vkCreateAndroidSurfaceKHR, "vkCreateAndroidSurfaceKHR");
+			version (VK_USE_PLATFORM_ANDROID_KHR) {
+				bindFunc(cast(void**)&vkCreateAndroidSurfaceKHR, "vkCreateAndroidSurfaceKHR");
 			}
-			version(VK_USE_PLATFORM_WIN32_KHR) {
-			bindFunc(cast(void**)&vkCreateWin32SurfaceKHR, "vkCreateWin32SurfaceKHR");
-			bindFunc(cast(void**)&vkGetPhysicalDeviceWin32PresentationSupportKHR, "vkGetPhysicalDeviceWin32PresentationSupportKHR");
+			version (VK_USE_PLATFORM_WIN32_KHR) {
+				bindFunc(cast(void**)&vkCreateWin32SurfaceKHR, "vkCreateWin32SurfaceKHR");
+				bindFunc(cast(void**)&vkGetPhysicalDeviceWin32PresentationSupportKHR, "vkGetPhysicalDeviceWin32PresentationSupportKHR");
 			}
 			bindFunc(cast(void**)&vkDebugReportCallbackEXT, "vkDebugReportCallbackEXT");
 			bindFunc(cast(void**)&vkCreateDebugReportCallbackEXT, "vkCreateDebugReportCallbackEXT");
 			bindFunc(cast(void**)&vkDestroyDebugReportCallbackEXT, "vkDestroyDebugReportCallbackEXT");
 			bindFunc(cast(void**)&vkDebugReportMessageEXT, "vkDebugReportMessageEXT");
-        }
-    }
-    public
-    {
-        this()
-        {
-            super(libNames);
-        }
-    }
+		}
+	}
+	public {
+		this() {
+			super(libNames);
+		}
+	}
 }
 
 __gshared DerelictVulkanLoader DerelictVulkan;
 
-shared static this()
-{
-    DerelictVulkan = new DerelictVulkanLoader();
+shared static this() {
+	DerelictVulkan = new DerelictVulkanLoader();
 }
 
-shared static ~this()
-{
-    DerelictVulkan.unload();
+shared static ~this() {
+	DerelictVulkan.unload();
 }
