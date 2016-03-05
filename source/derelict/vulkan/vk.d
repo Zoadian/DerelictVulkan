@@ -3028,8 +3028,8 @@ version (VK_USE_PLATFORM_ANDROID_KHR) {
 }
 
 version (VK_USE_PLATFORM_WIN32_KHR) {
+    import core.sys.windows.windows;
 	enum VK_KHR_win32_surface = 1;
-	//#include <windows.h>
 
 	enum VK_KHR_WIN32_SURFACE_SPEC_VERSION = 5;
 	enum VK_KHR_WIN32_SURFACE_EXTENSION_NAME = "VK_KHR_win32_surface";
