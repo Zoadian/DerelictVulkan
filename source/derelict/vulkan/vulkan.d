@@ -37,7 +37,7 @@ private {
 	import derelict.util.system;
 
 	static if (Derelict_OS_Windows)
-		enum libNames = "vulkan.dll";
+		enum libNames = "vulkan-1.dll";
 	//~ else static if(Derelict_OS_Mac)
 	//~ enum libNames = "libglfw.3.dylib";
 	//~ else static if(Derelict_OS_Posix)
