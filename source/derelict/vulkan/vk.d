@@ -21,7 +21,7 @@
 ** MATERIALS OR THE USE OR OTHER DEALINGS IN THE MATERIALS.
 */
 module derelict.vulkan.vk;
-extern(C):
+extern(System):
 
 enum VK_VERSION_1_0 = 1;
 //#include "vk_platform.h"
