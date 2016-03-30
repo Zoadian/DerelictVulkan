@@ -45,7 +45,7 @@ auto VK_VERSION_PATCH(uint ver) {
 	return ver & 0xfff;
 }
 
-enum VK_NULL_HANDLE = 0;
+enum VK_NULL_HANDLE = null;
 
 private auto VK_DEFINE_HANDLE(string name) {
 	return "struct " ~ name ~ "_T; \n alias " ~ name ~ " = " ~ name ~ "_T*;";
