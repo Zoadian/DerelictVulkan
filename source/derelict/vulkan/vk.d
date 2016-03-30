@@ -3028,7 +3028,7 @@ version (VK_USE_PLATFORM_ANDROID_KHR) {
 	}
 }
 
-version (VK_USE_PLATFORM_WIN32_KHR) {
+version (Windows) {
     import core.sys.windows.windows;
 	enum VK_KHR_win32_surface = 1;
 
