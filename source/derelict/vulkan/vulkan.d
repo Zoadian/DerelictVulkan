@@ -39,9 +39,9 @@ private {
 	static if (Derelict_OS_Windows)
 		enum libNames = "vulkan-1.dll";
 	//~ else static if(Derelict_OS_Mac)
-	//~ enum libNames = "libglfw.3.dylib";
-	//~ else static if(Derelict_OS_Posix)
-	//~ enum libNames = "libglfw3.so,libglfw.so.3,/usr/local/lib/libglfw3.so,/usr/local/lib/libglfw.so.3";
+	//~ enum libNames = "libvulkan.dylib";
+	else static if(Derelict_OS_Posix)
+		enum libNames = "libvulkan.so,libvulkan.so.1";
 	else
 		static assert(0, "Need to implement vulkan libNames for this operating system.");
 }
@@ -122,7 +122,6 @@ class DerelictVulkanLoader : SharedLibLoader {
 			bindFunc(cast(void**)&vkCreateSemaphore, "vkCreateSemaphore");
 			bindFunc(cast(void**)&vkCreateShaderModule, "vkCreateShaderModule");
 			bindFunc(cast(void**)&vkCreateSwapchainKHR, "vkCreateSwapchainKHR");
-			bindFunc(cast(void**)&vkCreateWin32SurfaceKHR, "vkCreateWin32SurfaceKHR");
 			bindFunc(cast(void**)&vkDestroyBuffer, "vkDestroyBuffer");
 			bindFunc(cast(void**)&vkDestroyBufferView, "vkDestroyBufferView");
 			bindFunc(cast(void**)&vkDestroyCommandPool, "vkDestroyCommandPool");
@@ -177,7 +176,6 @@ class DerelictVulkanLoader : SharedLibLoader {
 			bindFunc(cast(void**)&vkGetPhysicalDeviceSurfaceFormatsKHR, "vkGetPhysicalDeviceSurfaceFormatsKHR");
 			bindFunc(cast(void**)&vkGetPhysicalDeviceSurfacePresentModesKHR, "vkGetPhysicalDeviceSurfacePresentModesKHR");
 			bindFunc(cast(void**)&vkGetPhysicalDeviceSurfaceSupportKHR, "vkGetPhysicalDeviceSurfaceSupportKHR");
-			bindFunc(cast(void**)&vkGetPhysicalDeviceWin32PresentationSupportKHR, "vkGetPhysicalDeviceWin32PresentationSupportKHR");
 			bindFunc(cast(void**)&vkGetPipelineCacheData, "vkGetPipelineCacheData");
 			bindFunc(cast(void**)&vkGetQueryPoolResults, "vkGetQueryPoolResults");
 			bindFunc(cast(void**)&vkGetRenderAreaGranularity, "vkGetRenderAreaGranularity");
@@ -198,6 +196,12 @@ class DerelictVulkanLoader : SharedLibLoader {
 			bindFunc(cast(void**)&vkUnmapMemory, "vkUnmapMemory");
 			bindFunc(cast(void**)&vkUpdateDescriptorSets, "vkUpdateDescriptorSets");
 			bindFunc(cast(void**)&vkWaitForFences, "vkWaitForFences");
+
+			static if(Derelict_OS_Windows)
+			{
+				bindFunc(cast(void**)&vkCreateWin32SurfaceKHR, "vkCreateWin32SurfaceKHR");
+				bindFunc(cast(void**)&vkGetPhysicalDeviceWin32PresentationSupportKHR, "vkGetPhysicalDeviceWin32PresentationSupportKHR");
+			}
 		}
 	}
 	public {
