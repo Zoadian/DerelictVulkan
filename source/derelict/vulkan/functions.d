@@ -27,8 +27,10 @@ DEALINGS IN THE SOFTWARE.
 */
 module derelict.vulkan.functions;
 
+
 private {
 	import derelict.vulkan.vk;
+	import derelict.util.system;
 }
 
 __gshared {
@@ -105,7 +107,6 @@ __gshared {
 	PFN_vkCreateSemaphore vkCreateSemaphore;
 	PFN_vkCreateShaderModule vkCreateShaderModule;
 	PFN_vkCreateSwapchainKHR vkCreateSwapchainKHR;
-	PFN_vkCreateWin32SurfaceKHR vkCreateWin32SurfaceKHR;
 	PFN_vkDestroyBuffer vkDestroyBuffer;
 	PFN_vkDestroyBufferView vkDestroyBufferView;
 	PFN_vkDestroyCommandPool vkDestroyCommandPool;
@@ -160,7 +161,6 @@ __gshared {
 	PFN_vkGetPhysicalDeviceSurfaceFormatsKHR vkGetPhysicalDeviceSurfaceFormatsKHR;
 	PFN_vkGetPhysicalDeviceSurfacePresentModesKHR vkGetPhysicalDeviceSurfacePresentModesKHR;
 	PFN_vkGetPhysicalDeviceSurfaceSupportKHR vkGetPhysicalDeviceSurfaceSupportKHR;
-	PFN_vkGetPhysicalDeviceWin32PresentationSupportKHR vkGetPhysicalDeviceWin32PresentationSupportKHR;
 	PFN_vkGetPipelineCacheData vkGetPipelineCacheData;
 	PFN_vkGetQueryPoolResults vkGetQueryPoolResults;
 	PFN_vkGetRenderAreaGranularity vkGetRenderAreaGranularity;
@@ -181,4 +181,11 @@ __gshared {
 	PFN_vkUnmapMemory vkUnmapMemory;
 	PFN_vkUpdateDescriptorSets vkUpdateDescriptorSets;
 	PFN_vkWaitForFences vkWaitForFences;
+
+	static if(Derelict_OS_Windows)
+	{
+		PFN_vkCreateWin32SurfaceKHR vkCreateWin32SurfaceKHR;
+		PFN_vkGetPhysicalDeviceWin32PresentationSupportKHR vkGetPhysicalDeviceWin32PresentationSupportKHR;
+
+	}
 }
