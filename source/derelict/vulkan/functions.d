@@ -29,7 +29,7 @@ module derelict.vulkan.functions;
 
 
 private {
-	import derelict.vulkan.vk;
+	import derelict.vulkan.types;
 	import derelict.util.system;
 }
 

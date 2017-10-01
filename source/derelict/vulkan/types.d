@@ -20,7 +20,7 @@
 ** TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 ** MATERIALS OR THE USE OR OTHER DEALINGS IN THE MATERIALS.
 */
-module derelict.vulkan.vk;
+module derelict.vulkan.types;
 extern(System):
 
 enum VK_VERSION_1_0 = 1;
