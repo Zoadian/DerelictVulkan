@@ -29,6 +29,7 @@ DEALINGS IN THE SOFTWARE.
 module derelict.vulkan.system;
 
 import derelict.util.system;
+import derelict.vulkan.base;
 
 enum VKSystem {
   Other   = 0,
@@ -57,6 +58,7 @@ auto derelictVulkanSystem() {
 }
 
 mixin template SystemFunctionality() {
+  extern(System):
   enum currentSystem = derelictVulkanSystem();
   pragma(msg, "DerelictVulkanSystem: ", to!string(currentSystem));
   
@@ -69,22 +71,224 @@ mixin template SystemFunctionality() {
   }
 }
 
-mixin template WindowsSys() {}
+mixin template WindowsSys() {
+  import core.sys.windows.windows;
+  enum VK_KHR_win32_surface = 1;
+  enum VK_KHR_WIN32_SURFACE_SPEC_VERSION   = 5;
+  enum VK_KHR_WIN32_SURFACE_EXTENSION_NAME = "VK_KHR_win32_surface";
 
-mixin template AndroidSys() {}
+  alias VkWin32SurfaceCreateFlagsKHR = VkFlags;
+
+  struct VkWin32SurfaceCreateInfoKHR {
+    VkStructureType              sType    ;
+    const(void)*                 pNext    ;
+    VkWin32SurfaceCreateFlagsKHR flags    ;
+    HINSTANCE                    hinstance;
+    HWND                         hwnd     ;
+  }
+
+  alias PFN_vkCreateWin32SurfaceKHR = nothrow 
+      VkResult function( VkInstance                          instance
+                       , const(VkWin32SurfaceCreateInfoKHR)* pCreateInfo
+                       , const(VkAllocationCallbacks)*       pAllocator
+                       , VkSurfaceKHR*                       pSurface );
+  alias PFN_vkGetPhysicalDeviceWin32PresentationSupportKHR = nothrow 
+      VkBool32 function( VkPhysicalDevice physicalDevice, uint queueFamilyIndex );
+
+  version (none) {
+    VkResult vkCreateWin32SurfaceKHR( VkInstance                          instance
+                                    , const(VkWin32SurfaceCreateInfoKHR)* pCreateInfo
+                                    , const(VkAllocationCallbacks)*       pAllocator
+                                    , VkSurfaceKHR*                       pSurface );
+    VkBool32 vkGetPhysicalDeviceWin32PresentationSupportKHR( VkPhysicalDevice physicalDevice, uint queueFamilyIndex );
+  }
+}
+
+mixin template AndroidSys() { 
+  // #include <android/native_window.h>
+  enum VK_KHR_android_surface = 1;
+  enum VK_KHR_ANDROID_SURFACE_SPEC_VERSION   = 6;
+  enum VK_KHR_ANDROID_SURFACE_EXTENSION_NAME = "VK_KHR_android_surface";
+
+  alias VkAndroidSurfaceCreateFlagsKHR = VkFlags;
+
+  struct VkAndroidSurfaceCreateInfoKHR {
+    VkStructureType                sType ;
+    const(void)*                   pNext ;
+    VkAndroidSurfaceCreateFlagsKHR flags ;
+    ANativeWindow*                 window;
+  }
+
+  alias PFN_vkCreateAndroidSurfaceKHR = nothrow 
+      VkResult function( VkInstance                            instance
+                       , const(VkAndroidSurfaceCreateInfoKHR)* pCreateInfo
+                       , const(VkAllocationCallbacks)*         pAllocator
+                       , VkSurfaceKHR*                         pSurface );
+
+  version (none) {
+    VkResult vkCreateAndroidSurfaceKHR( VkInstance instance
+                                      , const(VkAndroidSurfaceCreateInfoKHR)* pCreateInfo
+                                      , const(VkAllocationCallbacks)* pAllocator
+                                      , VkSurfaceKHR* pSurface);
+  }
+}
 
 mixin template PosixSys() {
-  version (VK_USE_PLATFORM_XCB_KHR)     mixin XCBProtocol;
-  version (VK_USE_PLATFORM_XLIB_KHR)    mixin XLibProtocol;
-  version (VK_USE_PLATFORM_MIR_KHR)     mixin MirProtocol;
+  version (VK_USE_PLATFORM_XCB_KHR)     mixin XCBProtocol    ;
+  version (VK_USE_PLATFORM_XLIB_KHR)    mixin XLibProtocol   ;
+  version (VK_USE_PLATFORM_MIR_KHR)     mixin MirProtocol    ;
   version (VK_USE_PLATFORM_WAYLAND_KHR) mixin WaylandProtocol;
   else pragma(msg, "Non protocol been selected for Posix system.");
 }
 
-mixin template XCBProtocol() {}
+mixin template XCBProtocol() {
+  // #include <xcb/xcb.h>
+  enum VK_KHR_xcb_surface = 1;
+  enum VK_KHR_XCB_SURFACE_SPEC_VERSION   = 6;
+  enum VK_KHR_XCB_SURFACE_EXTENSION_NAME = "VK_KHR_xcb_surface";
 
-mixin template XLibProtocol() {}
+  alias VkXcbSurfaceCreateFlagsKHR = VkFlags;
 
-mixin template MirProtocol() {}
+  struct VkXcbSurfaceCreateInfoKHR {
+    VkStructureType            sType     ;
+    const(void)*               pNext     ;
+    VkXcbSurfaceCreateFlagsKHR flags     ;
+    xcb_connection_t*          connection;
+    xcb_window_t               window    ;
+  }
 
-mixin template WaylandProtocol() {}
+  alias PFN_vkCreateXcbSurfaceKHR = nothrow 
+      VkResult function( VkInstance                        instance
+                       , const(VkXcbSurfaceCreateInfoKHR)* pCreateInfo
+                       , const(VkAllocationCallbacks)*     pAllocator
+                       , VkSurfaceKHR*                     pSurface );
+  alias PFN_vkGetPhysicalDeviceXcbPresentationSupportKHR = nothrow 
+      VkBool32 function( VkPhysicalDevice  physicalDevice
+                       , uint              queueFamilyIndex
+                       , xcb_connection_t* connection
+                       , xcb_visualid_t    visual_id );
+
+  version (none) {
+    VkResult vkCreateXcbSurfaceKHR( VkInstance                        instance
+                                  , const(VkXcbSurfaceCreateInfoKHR)* pCreateInfo
+                                  , const(VkAllocationCallbacks)*     pAllocator
+                                  , VkSurfaceKHR*                     pSurface );
+    VkBool32 vkGetPhysicalDeviceXcbPresentationSupportKHR( VkPhysicalDevice  physicalDevice
+                                                         , uint              queueFamilyIndex
+                                                         , xcb_connection_t* connection
+                                                         , xcb_visualid_t    visual_id);
+  }
+}
+
+mixin template XLibProtocol() {
+  // #include <X11/Xlib.h>
+  enum VK_KHR_xlib_surface = 1;
+  enum VK_KHR_XLIB_SURFACE_SPEC_VERSION   = 6;
+  enum VK_KHR_XLIB_SURFACE_EXTENSION_NAME = "VK_KHR_xlib_surface";
+
+  alias VkXlibSurfaceCreateFlagsKHR = VkFlags;
+
+  struct VkXlibSurfaceCreateInfoKHR {
+    VkStructureType             sType ;
+    const(void)*                pNext ;
+    VkXlibSurfaceCreateFlagsKHR flags ;
+    Display*                    dpy   ;
+    Window                      window;
+  }
+
+  alias PFN_vkCreateXlibSurfaceKHR = nothrow 
+      VkResult function( VkInstance                         instance
+                       , const(VkXlibSurfaceCreateInfoKHR)* pCreateInfo
+                       , const(VkAllocationCallbacks)*      pAllocator
+                       , VkSurfaceKHR*                      pSurface );
+  alias PFN_vkGetPhysicalDeviceXlibPresentationSupportKHR = nothrow 
+      VkBool32 function( VkPhysicalDevice physicalDevice
+                       , uint             queueFamilyIndex
+                       , Display*         dpy
+                       , VisualID         visualID);
+
+  version (none) {
+    VkResult vkCreateXlibSurfaceKHR( VkInstance                         instance
+                                   , const(VkXlibSurfaceCreateInfoKHR)* pCreateInfo
+                                   , const(VkAllocationCallbacks)*      pAllocator
+                                   , VkSurfaceKHR*                      pSurface );
+    VkBool32 vkGetPhysicalDeviceXlibPresentationSupportKHR( VkPhysicalDevice physicalDevice
+                                                          , uint queueFamilyIndex
+                                                          , Display* dpy
+                                                          , VisualID visualID );
+  }
+}
+
+mixin template MirProtocol() {
+  // #include <mir_toolkit/client_types.h>
+  enum VK_KHR_mir_surface = 1;
+  enum VK_KHR_MIR_SURFACE_SPEC_VERSION   = 4;
+  enum VK_KHR_MIR_SURFACE_EXTENSION_NAME = "VK_KHR_mir_surface";
+
+  alias VkMirSurfaceCreateFlagsKHR = VkFlags;
+
+  struct VkMirSurfaceCreateInfoKHR {
+    VkStructureType            sType     ;
+    const(void)*               pNext     ;
+    VkMirSurfaceCreateFlagsKHR flags     ;
+    MirConnection*             connection;
+    MirSurface*                mirSurface;
+  }
+
+  alias PFN_vkCreateMirSurfaceKHR = nothrow 
+      VkResult function( VkInstance                        instance
+                       , const(VkMirSurfaceCreateInfoKHR)* pCreateInfo
+                       , const(VkAllocationCallbacks)*     pAllocator
+                       , VkSurfaceKHR*                     pSurface );
+  alias PFN_vkGetPhysicalDeviceMirPresentationSupportKHR = nothrow 
+      VkBool32 function( VkPhysicalDevice physicalDevice
+                       , uint queueFamilyIndex
+                       , MirConnection* connection);
+
+  version (none) {
+    VkResult vkCreateMirSurfaceKHR( VkInstance                        instance
+                                  , const(VkMirSurfaceCreateInfoKHR)* pCreateInfo
+                                  , const(VkAllocationCallbacks)*     pAllocator
+                                  , VkSurfaceKHR*                     pSurface );
+    VkBool32 vkGetPhysicalDeviceMirPresentationSupportKHR( VkPhysicalDevice physicalDevice
+                                                         , uint             queueFamilyIndex
+                                                         , MirConnection*   connection );
+  }
+}
+
+mixin template WaylandProtocol() {
+  // #include <wayland-client.h>
+  enum VK_KHR_wayland_surface = 1;
+  enum VK_KHR_WAYLAND_SURFACE_SPEC_VERSION   = 5;
+  enum VK_KHR_WAYLAND_SURFACE_EXTENSION_NAME = "VK_KHR_wayland_surface";
+
+  alias VkWaylandSurfaceCreateFlagsKHR = VkFlags;
+
+  struct VkWaylandSurfaceCreateInfoKHR {
+    VkStructureType                sType  ;
+    const(void)*                   pNext  ;
+    VkWaylandSurfaceCreateFlagsKHR flags  ;
+    wl_display*                    display;
+    wl_surface*                    surface;
+  }
+
+  alias PFN_vkCreateWaylandSurfaceKHR = nothrow 
+      VkResult function( VkInstance                            instance
+                       , const(VkWaylandSurfaceCreateInfoKHR)* pCreateInfo
+                       , const(VkAllocationCallbacks)*         pAllocator
+                       , VkSurfaceKHR*                         pSurface );
+  alias PFN_vkGetPhysicalDeviceWaylandPresentationSupportKHR = nothrow 
+      VkBool32 function( VkPhysicalDevice physicalDevice
+                       , uint             queueFamilyIndex
+                       , wl_display*      display );
+
+  version (none) {
+    VkResult vkCreateWaylandSurfaceKHR( VkInstance                            instance
+                                      , const(VkWaylandSurfaceCreateInfoKHR)* pCreateInfo
+                                      , const(VkAllocationCallbacks)*         pAllocator
+                                      , VkSurfaceKHR*                         pSurface );
+    VkBool32 vkGetPhysicalDeviceWaylandPresentationSupportKHR( VkPhysicalDevice physicalDevice
+                                                             , uint             queueFamilyIndex
+                                                             , wl_display*      display );
+  }
+}
