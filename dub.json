@@ -4,11 +4,12 @@
 	"description": "A dynamic binding to the vulkan api.",
 	"copyright": "Copyright © 2016, Felix Hufnagel",
 	"authors": ["Felix Hufnagel"],
-	
 	"targetPath": "bin",
 	"targetType": "library",
 	
 	"dependencies": {
-		"derelict-util" : ">=1.0.0"
+		"derelict-util" : ">=1.0.0",
+		"xcb-d": "~>2.1.0+1.11.1",
+		"xlib-d": "~>0.1.1"
 	}
 }

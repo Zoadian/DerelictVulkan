@@ -197,11 +197,7 @@ class DerelictVulkanLoader : SharedLibLoader {
 			bindFunc(cast(void**)&vkUpdateDescriptorSets, "vkUpdateDescriptorSets");
 			bindFunc(cast(void**)&vkWaitForFences, "vkWaitForFences");
 
-			static if(Derelict_OS_Windows)
-			{
-				bindFunc(cast(void**)&vkCreateWin32SurfaceKHR, "vkCreateWin32SurfaceKHR");
-				bindFunc(cast(void**)&vkGetPhysicalDeviceWin32PresentationSupportKHR, "vkGetPhysicalDeviceWin32PresentationSupportKHR");
-			}
+			bindFunctions!bindFunc;
 		}
 	}
 	public {

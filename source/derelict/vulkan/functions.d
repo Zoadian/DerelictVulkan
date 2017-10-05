@@ -26,7 +26,7 @@ DEALINGS IN THE SOFTWARE.
 
 */
 module derelict.vulkan.functions;
-
+public import derelict.vulkan.system;
 
 private {
 	import derelict.vulkan.types;
@@ -182,10 +182,5 @@ __gshared {
 	PFN_vkUpdateDescriptorSets vkUpdateDescriptorSets;
 	PFN_vkWaitForFences vkWaitForFences;
 
-	static if(Derelict_OS_Windows)
-	{
-		PFN_vkCreateWin32SurfaceKHR vkCreateWin32SurfaceKHR;
-		PFN_vkGetPhysicalDeviceWin32PresentationSupportKHR vkGetPhysicalDeviceWin32PresentationSupportKHR;
-
-	}
+	mixin Functions;
 }
