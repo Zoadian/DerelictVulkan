@@ -195,7 +195,7 @@ class DerelictVulkanLoader : SharedLibLoader {
 			bindFunc(cast(void**)&vkUpdateDescriptorSets, "vkUpdateDescriptorSets");
 			bindFunc(cast(void**)&vkWaitForFences, "vkWaitForFences");
 
-			bindFunctions!bindFunc;
+			bindFunctions!((void** ptr, string funcName) => bindFunc(ptr, funcName));
 		}
 	}
 	public {
