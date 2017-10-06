@@ -28,6 +28,7 @@ DEALINGS IN THE SOFTWARE.
 module derelict.vulkan;
 
 public {
+	import derelict.vulkan.system;
 	import derelict.vulkan.types;
 	import derelict.vulkan.functions;
 }
@@ -35,15 +36,12 @@ public {
 private {
 	import derelict.util.loader;
 	import derelict.util.system;
+}
 
-	static if (Derelict_OS_Windows)
-		enum libNames = "vulkan-1.dll";
-	//~ else static if(Derelict_OS_Mac)
-	//~ enum libNames = "libvulkan.dylib";
-	else static if(Derelict_OS_Posix)
-		enum libNames = "libvulkan.so,libvulkan.so.1";
-	else
-		static assert(0, "Need to implement vulkan libNames for this operating system.");
+static if (libNames.length == 0) {
+  pragma(msg, "Library names don't specified for this system."
+            , " Please, specify it on library loading. e.g:\n"
+            , "DerelictVulkan.load(\"libvulkan.so\");");
 }
 
 class DerelictVulkanLoader : SharedLibLoader {

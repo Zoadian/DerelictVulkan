@@ -73,12 +73,14 @@ mixin template SystemFunctionality() {
   } else static if (currentSystem == VKSystem.Posix) {
     mixin PosixSys;
   } else {
+    enum libNames = "";
     package alias Functions = DummyFunctions;
   }
 }
 
 mixin template WindowsSys() {
   import core.sys.windows.windows;
+  enum libNames = "vulkan-1.dll";
   enum VK_KHR_win32_surface = 1;
   enum VK_KHR_WIN32_SURFACE_SPEC_VERSION   = 5;
   enum VK_KHR_WIN32_SURFACE_EXTENSION_NAME = "VK_KHR_win32_surface";
@@ -121,7 +123,8 @@ mixin template WindowsSys() {
   }
 }
 
-mixin template AndroidSys() { 
+mixin template AndroidSys() {
+  enum libNames = "";
   // #include <android/native_window.h>
   enum VK_KHR_android_surface = 1;
   enum VK_KHR_ANDROID_SURFACE_SPEC_VERSION   = 6;
@@ -159,6 +162,7 @@ mixin template AndroidSys() {
 }
 
 mixin template PosixSys() {
+  enum libNames = "libvulkan.so,libvulkan.so.1";
   version (VK_USE_PLATFORM_XCB_KHR)     mixin XCBProtocol    ;
   version (VK_USE_PLATFORM_XLIB_KHR)    mixin XLibProtocol   ;
   version (VK_USE_PLATFORM_MIR_KHR)     mixin MirProtocol    ;
