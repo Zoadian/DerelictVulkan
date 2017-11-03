@@ -20,46 +20,11 @@
 ** TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 ** MATERIALS OR THE USE OR OTHER DEALINGS IN THE MATERIALS.
 */
-module derelict.vulkan.vk;
+module derelict.vulkan.types;
+import derelict.vulkan.base;
+import derelict.vulkan.system;
+
 extern(System):
-
-enum VK_VERSION_1_0 = 1;
-//#include "vk_platform.h"
-
-auto VK_MAKE_VERSION(int major, int minor, int patch) {
-	return (major << 22) | (minor << 12) | patch;
-}
-
-// Vulkan API version supported by this file
-enum VK_API_VERSION = VK_MAKE_VERSION(1, 0, 3);
-
-auto VK_VERSION_MAJOR(uint ver) {
-	return ver >> 22;
-}
-
-auto VK_VERSION_MINOR(uint ver) {
-	return (ver >> 12) & 0x3ff;
-}
-
-auto VK_VERSION_PATCH(uint ver) {
-	return ver & 0xfff;
-}
-
-enum VK_NULL_HANDLE = null;
-
-private auto VK_DEFINE_HANDLE(string name) {
-	return "struct " ~ name ~ "_T; \n alias " ~ name ~ " = " ~ name ~ "_T*;";
-}
-
-private auto VK_DEFINE_NON_DISPATCHABLE_HANDLE(string name) {
-	// #if defined(__LP64__) || defined(_WIN64) || defined(__x86_64__) || defined(_M_X64) || defined(__ia64) || defined (_M_IA64) || defined(__aarch64__) || defined(__powerpc64__)
-	return "struct " ~ name ~ "_T; \n alias " ~ name ~ " = " ~ name ~ "_T*;";
-}
-
-alias VkFlags = uint;
-alias VkBool32 = uint;
-alias VkDeviceSize = ulong;
-alias VkSampleMask = uint;
 
 mixin(VK_DEFINE_HANDLE("VkInstance"));
 mixin(VK_DEFINE_HANDLE("VkPhysicalDevice"));
@@ -86,22 +51,6 @@ mixin(VK_DEFINE_NON_DISPATCHABLE_HANDLE("VkDescriptorPool"));
 mixin(VK_DEFINE_NON_DISPATCHABLE_HANDLE("VkDescriptorSet"));
 mixin(VK_DEFINE_NON_DISPATCHABLE_HANDLE("VkFramebuffer"));
 mixin(VK_DEFINE_NON_DISPATCHABLE_HANDLE("VkCommandPool"));
-
-enum VK_LOD_CLAMP_NONE = 1000.0f;
-enum VK_REMAINING_MIP_LEVELS = (~0U);
-enum VK_REMAINING_ARRAY_LAYERS = (~0U);
-enum VK_WHOLE_SIZE = (~0UL);
-enum VK_ATTACHMENT_UNUSED = (~0U);
-enum VK_TRUE = 1;
-enum VK_FALSE = 0;
-enum VK_QUEUE_FAMILY_IGNORED = (~0U);
-enum VK_SUBPASS_EXTERNAL = (~0U);
-enum VK_MAX_PHYSICAL_DEVICE_NAME_SIZE = 256;
-enum VK_UUID_SIZE = 16;
-enum VK_MAX_MEMORY_TYPES = 32;
-enum VK_MAX_MEMORY_HEAPS = 16;
-enum VK_MAX_EXTENSION_NAME_SIZE = 256;
-enum VK_MAX_DESCRIPTION_SIZE = 256;
 
 enum VkPipelineCacheHeaderVersion {
 	VK_PIPELINE_CACHE_HEADER_VERSION_ONE = 1,
@@ -2895,164 +2844,6 @@ alias PFN_vkCreateSharedSwapchainsKHR = nothrow VkResult function(VkDevice devic
 
 version (none) {
 	VkResult vkCreateSharedSwapchainsKHR(VkDevice device, uint swapchainCount, const(VkSwapchainCreateInfoKHR)* pCreateInfos, const(VkAllocationCallbacks)* pAllocator, VkSwapchainKHR* pSwapchains);
-}
-
-version (VK_USE_PLATFORM_XLIB_KHR) {
-	enum VK_KHR_xlib_surface = 1;
-	//#include <X11/Xlib.h>
-
-	enum VK_KHR_XLIB_SURFACE_SPEC_VERSION = 6;
-	enum VK_KHR_XLIB_SURFACE_EXTENSION_NAME = "VK_KHR_xlib_surface";
-
-	alias VkXlibSurfaceCreateFlagsKHR = VkFlags;
-
-	struct VkXlibSurfaceCreateInfoKHR {
-		VkStructureType sType;
-		const(void)* pNext;
-		VkXlibSurfaceCreateFlagsKHR flags;
-		Display* dpy;
-		Window window;
-	}
-
-	alias PFN_vkCreateXlibSurfaceKHR = nothrow VkResult function(VkInstance instance, const(VkXlibSurfaceCreateInfoKHR)* pCreateInfo, const(VkAllocationCallbacks)* pAllocator, VkSurfaceKHR* pSurface);
-	alias PFN_vkGetPhysicalDeviceXlibPresentationSupportKHR = nothrow VkBool32 function(VkPhysicalDevice physicalDevice, uint queueFamilyIndex, Display* dpy, VisualID visualID);
-
-	version (none) {
-		VkResult vkCreateXlibSurfaceKHR(VkInstance instance, const(VkXlibSurfaceCreateInfoKHR)* pCreateInfo, const(VkAllocationCallbacks)* pAllocator, VkSurfaceKHR* pSurface);
-
-		VkBool32 vkGetPhysicalDeviceXlibPresentationSupportKHR(VkPhysicalDevice physicalDevice, uint queueFamilyIndex, Display* dpy, VisualID visualID);
-	}
-}
-
-version (VK_USE_PLATFORM_XCB_KHR) {
-	enum VK_KHR_xcb_surface = 1;
-	//#include <xcb/xcb.h>
-
-	enum VK_KHR_XCB_SURFACE_SPEC_VERSION = 6;
-	enum VK_KHR_XCB_SURFACE_EXTENSION_NAME = "VK_KHR_xcb_surface";
-
-	alias VkXcbSurfaceCreateFlagsKHR = VkFlags;
-
-	struct VkXcbSurfaceCreateInfoKHR {
-		VkStructureType sType;
-		const(void)* pNext;
-		VkXcbSurfaceCreateFlagsKHR flags;
-		xcb_connection_t* connection;
-		xcb_window_t window;
-	}
-
-	alias PFN_vkCreateXcbSurfaceKHR = nothrow VkResult function(VkInstance instance, const(VkXcbSurfaceCreateInfoKHR)* pCreateInfo, const(VkAllocationCallbacks)* pAllocator, VkSurfaceKHR* pSurface);
-	alias PFN_vkGetPhysicalDeviceXcbPresentationSupportKHR = nothrow VkBool32 function(VkPhysicalDevice physicalDevice, uint queueFamilyIndex, xcb_connection_t* connection, xcb_visualid_t visual_id);
-
-	version (none) {
-		VkResult vkCreateXcbSurfaceKHR(VkInstance instance, const(VkXcbSurfaceCreateInfoKHR)* pCreateInfo, const(VkAllocationCallbacks)* pAllocator, VkSurfaceKHR* pSurface);
-
-		VkBool32 vkGetPhysicalDeviceXcbPresentationSupportKHR(VkPhysicalDevice physicalDevice, uint queueFamilyIndex, xcb_connection_t* connection, xcb_visualid_t visual_id);
-	}
-}
-
-version (VK_USE_PLATFORM_WAYLAND_KHR) {
-	enum VK_KHR_wayland_surface = 1;
-	//#include <wayland-client.h>
-
-	enum VK_KHR_WAYLAND_SURFACE_SPEC_VERSION = 5;
-	enum VK_KHR_WAYLAND_SURFACE_EXTENSION_NAME = "VK_KHR_wayland_surface";
-
-	alias VkWaylandSurfaceCreateFlagsKHR = VkFlags;
-
-	struct VkWaylandSurfaceCreateInfoKHR {
-		VkStructureType sType;
-		const(void)* pNext;
-		VkWaylandSurfaceCreateFlagsKHR flags;
-		wl_display* display;
-		wl_surface* surface;
-	}
-
-	alias PFN_vkCreateWaylandSurfaceKHR = nothrow VkResult function(VkInstance instance, const(VkWaylandSurfaceCreateInfoKHR)* pCreateInfo, const(VkAllocationCallbacks)* pAllocator, VkSurfaceKHR* pSurface);
-	alias PFN_vkGetPhysicalDeviceWaylandPresentationSupportKHR = nothrow VkBool32 function(VkPhysicalDevice physicalDevice, uint queueFamilyIndex, wl_display* display);
-
-	version (none) {
-		VkResult vkCreateWaylandSurfaceKHR(VkInstance instance, const(VkWaylandSurfaceCreateInfoKHR)* pCreateInfo, const(VkAllocationCallbacks)* pAllocator, VkSurfaceKHR* pSurface);
-
-		VkBool32 vkGetPhysicalDeviceWaylandPresentationSupportKHR(VkPhysicalDevice physicalDevice, uint queueFamilyIndex, wl_display* display);
-	}
-}
-
-version (VK_USE_PLATFORM_MIR_KHR) {
-	enum VK_KHR_mir_surface = 1;
-	//#include <mir_toolkit/client_types.h>
-
-	enum VK_KHR_MIR_SURFACE_SPEC_VERSION = 4;
-	enum VK_KHR_MIR_SURFACE_EXTENSION_NAME = "VK_KHR_mir_surface";
-
-	alias VkMirSurfaceCreateFlagsKHR = VkFlags;
-
-	struct VkMirSurfaceCreateInfoKHR {
-		VkStructureType sType;
-		const(void)* pNext;
-		VkMirSurfaceCreateFlagsKHR flags;
-		MirConnection* connection;
-		MirSurface* mirSurface;
-	}
-
-	alias PFN_vkCreateMirSurfaceKHR = nothrow VkResult function(VkInstance instance, const(VkMirSurfaceCreateInfoKHR)* pCreateInfo, const(VkAllocationCallbacks)* pAllocator, VkSurfaceKHR* pSurface);
-	alias PFN_vkGetPhysicalDeviceMirPresentationSupportKHR = nothrow VkBool32 function(VkPhysicalDevice physicalDevice, uint queueFamilyIndex, MirConnection* connection);
-
-	version (none) {
-		VkResult vkCreateMirSurfaceKHR(VkInstance instance, const(VkMirSurfaceCreateInfoKHR)* pCreateInfo, const(VkAllocationCallbacks)* pAllocator, VkSurfaceKHR* pSurface);
-
-		VkBool32 vkGetPhysicalDeviceMirPresentationSupportKHR(VkPhysicalDevice physicalDevice, uint queueFamilyIndex, MirConnection* connection);
-	}
-}
-
-version (VK_USE_PLATFORM_ANDROID_KHR) {
-	enum VK_KHR_android_surface = 1;
-	//#include <android/native_window.h>
-
-	enum VK_KHR_ANDROID_SURFACE_SPEC_VERSION = 6;
-	enum VK_KHR_ANDROID_SURFACE_EXTENSION_NAME = "VK_KHR_android_surface";
-
-	alias VkAndroidSurfaceCreateFlagsKHR = VkFlags;
-
-	struct VkAndroidSurfaceCreateInfoKHR {
-		VkStructureType sType;
-		const(void)* pNext;
-		VkAndroidSurfaceCreateFlagsKHR flags;
-		ANativeWindow* window;
-	}
-
-	alias PFN_vkCreateAndroidSurfaceKHR = nothrow VkResult function(VkInstance instance, const(VkAndroidSurfaceCreateInfoKHR)* pCreateInfo, const(VkAllocationCallbacks)* pAllocator, VkSurfaceKHR* pSurface);
-
-	version (none) {
-		VkResult vkCreateAndroidSurfaceKHR(VkInstance instance, const(VkAndroidSurfaceCreateInfoKHR)* pCreateInfo, const(VkAllocationCallbacks)* pAllocator, VkSurfaceKHR* pSurface);
-	}
-}
-
-version (Windows) {
-    import core.sys.windows.windows;
-	enum VK_KHR_win32_surface = 1;
-
-	enum VK_KHR_WIN32_SURFACE_SPEC_VERSION = 5;
-	enum VK_KHR_WIN32_SURFACE_EXTENSION_NAME = "VK_KHR_win32_surface";
-
-	alias VkWin32SurfaceCreateFlagsKHR = VkFlags;
-
-	struct VkWin32SurfaceCreateInfoKHR {
-		VkStructureType sType;
-		const(void)* pNext;
-		VkWin32SurfaceCreateFlagsKHR flags;
-		HINSTANCE hinstance;
-		HWND hwnd;
-	}
-
-	alias PFN_vkCreateWin32SurfaceKHR = nothrow VkResult function(VkInstance instance, const(VkWin32SurfaceCreateInfoKHR)* pCreateInfo, const(VkAllocationCallbacks)* pAllocator, VkSurfaceKHR* pSurface);
-	alias PFN_vkGetPhysicalDeviceWin32PresentationSupportKHR = nothrow VkBool32 function(VkPhysicalDevice physicalDevice, uint queueFamilyIndex);
-
-	version (none) {
-		VkResult vkCreateWin32SurfaceKHR(VkInstance instance, const(VkWin32SurfaceCreateInfoKHR)* pCreateInfo, const(VkAllocationCallbacks)* pAllocator, VkSurfaceKHR* pSurface);
-
-		VkBool32 vkGetPhysicalDeviceWin32PresentationSupportKHR(VkPhysicalDevice physicalDevice, uint queueFamilyIndex);
-	}
 }
 
 enum VK_EXT_debug_report = 1;
