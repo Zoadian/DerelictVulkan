@@ -39,9 +39,9 @@ private {
 }
 
 static if (libNames.length == 0) {
-  pragma(msg, "Library names don't specified for this system."
-            , " Please, specify it on library loading. e.g:\n"
-            , "DerelictVulkan.load(\"libvulkan.so\");");
+  pragma(msg, "Library names are not specified for this system, "
+            , "please specify them when loading the library. "
+            , "Example: DerelictVulkan.load(\"libvulkan.so\");");
 }
 
 class DerelictVulkanLoader : SharedLibLoader {

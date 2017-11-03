@@ -29,8 +29,8 @@ DEALINGS IN THE SOFTWARE.
 module derelict.vulkan.system.dummy;
 
 mixin template SystemFunctionality() {
-  pragma(msg, "Non of currently supported systems was fit to yours. "
-            , "If required functionality is missed, feel free to extend and share on GitHub.");
+  pragma(msg, "This system is not supported. "
+            , "Please feel free to extend and submit a pull request.");
   enum libNames = "";
   mixin template Functions() {
     pragma(inline, true)
