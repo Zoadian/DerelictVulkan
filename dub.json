@@ -8,7 +8,7 @@
 	"targetType": "library",
 	"dependencies": {
 		"derelict-util" : ">=1.0.0",
-		"xlib-d": "~>0.1.1",
-		"xcb-d": "~>2.1.0+1.11.1"
+		"xlib-d": { "version": "~>0.1.1", "optional": true },
+		"xcb-d" : { "version": "~>2.1.0+1.11.1", "optional": true }
 	}
 }
