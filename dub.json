@@ -7,7 +7,7 @@
 	"targetPath": "bin",
 	"targetType": "library",
 	"dependencies": {
-		"derelict-util" : ">=1.0.0",
+		"derelict-util" : ">=3.0.0",
 		"xlib-d": { "version": "~>0.1.1", "optional": true },
 		"xcb-d" : { "version": "~>2.1.0+1.11.1", "optional": true }
 	}
