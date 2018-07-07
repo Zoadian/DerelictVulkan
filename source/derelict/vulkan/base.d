@@ -25,33 +25,22 @@ extern(System):
 
 //#include "vk_platform.h"
 
-auto VK_MAKE_VERSION(int major, int minor, int patch) {
-  return (major << 22) | (minor << 12) | patch;
-}
+alias VK_VERSION_MAJOR = (uint ver) => ver >> 22;
+alias VK_VERSION_MINOR = (uint ver) => (ver >> 12) & 0x3ff;
+alias VK_VERSION_PATCH = (uint ver) => ver & 0xfff;
+alias VK_MAKE_VERSION  = (uint major, uint minor, uint patch) =>
+  (major << 22) | (minor << 12) | patch;
 
-auto VK_VERSION_MAJOR(uint ver) {
-  return ver >> 22;
+package mixin template VK_DEFINE_HANDLE(string name) {
+  mixin("struct " ~ name ~ "_T; \n alias " ~ name ~ " = " ~ name ~ "_T*;");
 }
-
-auto VK_VERSION_MINOR(uint ver) {
-  return (ver >> 12) & 0x3ff;
+package mixin template VK_DEFINE_NON_DISPATCHABLE_HANDLE(string name) {
+  mixin("alias " ~ name ~ " = void*;");
 }
-
-auto VK_VERSION_PATCH(uint ver) {
-  return ver & 0xfff;
-}
-
-package auto VK_DEFINE_HANDLE(string name) {
-  return "struct " ~ name ~ "_T; \n alias " ~ name ~ " = " ~ name ~ "_T*;";
-}
-
-package auto VK_DEFINE_NON_DISPATCHABLE_HANDLE(string name) {
-  // #if defined(__LP64__)    || defined(_WIN64) 
-  //  || defined(__x86_64__)  || defined(_M_X64) 
-  //  || defined(__ia64)      || defined (_M_IA64) 
-  //  || defined(__aarch64__) || defined(__powerpc64__)
-  return VK_DEFINE_HANDLE(name);
-}
+// #if defined(__LP64__)    || defined(_WIN64) 
+//  || defined(__x86_64__)  || defined(_M_X64) 
+//  || defined(__ia64)      || defined (_M_IA64) 
+//  || defined(__aarch64__) || defined(__powerpc64__)
 
 alias VkFlags      = uint;
 alias VkBool32     = uint;
@@ -59,7 +48,7 @@ alias VkDeviceSize = ulong;
 alias VkSampleMask = uint;
 
 enum VK_VERSION_1_0 = 1;
-enum VK_API_VERSION = VK_MAKE_VERSION(1, 0, 3); // Vulkan API version supported by this file
+enum VK_API_VERSION = VK_MAKE_VERSION(1, 0, 3); // Vulkan API version supported by this binding
 enum VK_NULL_HANDLE = null;
 
 enum VK_TRUE  = 1;

@@ -41,7 +41,7 @@ version (VK_USE_PLATFORM_WAYLAND_KHR)
 mixin template Functions() {
   version (VK_USE_PLATFORM_XCB_KHR) mixin XCBFunctions;
   version (VK_USE_PLATFORM_XLIB_KHR) mixin XLibFunctions;
-  version (VK_USE_PLATFORM_MIR_KHR) mixin MirFuntions;
+  version (VK_USE_PLATFORM_MIR_KHR) mixin MirFunctions;
   version (VK_USE_PLATFORM_WAYLAND_KHR) mixin WaylandFunctions;
   pragma(inline, true)
   void bindFunctions(alias bind)() {

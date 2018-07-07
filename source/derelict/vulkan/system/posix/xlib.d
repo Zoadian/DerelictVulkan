@@ -34,7 +34,10 @@ public {
   import derelict.vulkan.base;
   import derelict.vulkan.types;
 }
-import X11.Xlib;
+
+mixin VK_DEFINE_NON_DISPATCHABLE_HANDLE!"XLibDisplayHandle";
+alias XLibWindow   = uint;
+alias XLibVisualID = uint;
 
 enum VK_KHR_xlib_surface = 1;
 enum VK_KHR_XLIB_SURFACE_SPEC_VERSION   = 6;
@@ -46,8 +49,8 @@ struct VkXlibSurfaceCreateInfoKHR {
   VkStructureType             sType ;
   const(void)*                pNext ;
   VkXlibSurfaceCreateFlagsKHR flags ;
-  Display*                    dpy   ;
-  Window                      window;
+  XLibDisplayHandle           dpy   ;
+  XLibWindow                  window;
 }
 
 alias PFN_vkCreateXlibSurfaceKHR = nothrow 
@@ -56,10 +59,10 @@ alias PFN_vkCreateXlibSurfaceKHR = nothrow
                      , const(VkAllocationCallbacks)*      pAllocator
                      , VkSurfaceKHR*                      pSurface );
 alias PFN_vkGetPhysicalDeviceXlibPresentationSupportKHR = nothrow 
-    VkBool32 function( VkPhysicalDevice physicalDevice
-                     , uint             queueFamilyIndex
-                     , Display*         dpy
-                     , VisualID         visualID);
+    VkBool32 function( VkPhysicalDevice  physicalDevice
+                     , uint              queueFamilyIndex
+                     , XLibDisplayHandle dpy
+                     , XLibVisualID      visualID);
 
 mixin template XLibFunctions() {
   PFN_vkCreateXlibSurfaceKHR                        vkCreateXlibSurfaceKHR;
@@ -77,8 +80,8 @@ version (none) {
                                  , const(VkXlibSurfaceCreateInfoKHR)* pCreateInfo
                                  , const(VkAllocationCallbacks)*      pAllocator
                                  , VkSurfaceKHR*                      pSurface );
-  VkBool32 vkGetPhysicalDeviceXlibPresentationSupportKHR( VkPhysicalDevice physicalDevice
-                                                        , uint queueFamilyIndex
-                                                        , Display* dpy
-                                                        , VisualID visualID );
+  VkBool32 vkGetPhysicalDeviceXlibPresentationSupportKHR( VkPhysicalDevice  physicalDevice
+                                                        , uint              queueFamilyIndex
+                                                        , XLibDisplayHandle dpy
+                                                        , XLibVisualID      visualID );
 }
