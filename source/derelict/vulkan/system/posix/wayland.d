@@ -35,8 +35,9 @@ public {
   import derelict.vulkan.types;
 }
 
-// TODO: add import of data related to Wayland protocol
-// #include <wayland-client.h>
+mixin VK_DEFINE_NON_DISPATCHABLE_HANDLE!"WlDisplayHandle";
+mixin VK_DEFINE_NON_DISPATCHABLE_HANDLE!"WlSurfaceHandle";
+
 enum VK_KHR_wayland_surface = 1;
 enum VK_KHR_WAYLAND_SURFACE_SPEC_VERSION   = 5;
 enum VK_KHR_WAYLAND_SURFACE_EXTENSION_NAME = "VK_KHR_wayland_surface";
@@ -47,8 +48,8 @@ struct VkWaylandSurfaceCreateInfoKHR {
   VkStructureType                sType  ;
   const(void)*                   pNext  ;
   VkWaylandSurfaceCreateFlagsKHR flags  ;
-  wl_display*                    display;
-  wl_surface*                    surface;
+  WlDisplayHandle                display;
+  WlSurfaceHandle                surface;
 }
 
 alias PFN_vkCreateWaylandSurfaceKHR = nothrow 
@@ -59,7 +60,7 @@ alias PFN_vkCreateWaylandSurfaceKHR = nothrow
 alias PFN_vkGetPhysicalDeviceWaylandPresentationSupportKHR = nothrow 
     VkBool32 function( VkPhysicalDevice physicalDevice
                      , uint             queueFamilyIndex
-                     , wl_display*      display );
+                     , WlDisplayHandle  display );
 
 mixin template WaylandFunctions() {
   PFN_vkCreateWaylandSurfaceKHR                        vkCreateWaylandSurfaceKHR;
@@ -79,5 +80,5 @@ version (none) {
                                     , VkSurfaceKHR*                         pSurface );
   VkBool32 vkGetPhysicalDeviceWaylandPresentationSupportKHR( VkPhysicalDevice physicalDevice
                                                            , uint             queueFamilyIndex
-                                                           , wl_display*      display );
+                                                           , WlDisplayHandle  display );
 }

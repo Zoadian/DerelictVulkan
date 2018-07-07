@@ -35,7 +35,10 @@ public {
   import derelict.vulkan.types;
 }
 
-import xcb.xcb;
+mixin VK_DEFINE_NON_DISPATCHABLE_HANDLE!"XCBConnectionHandle";
+alias xcb_window_t   = uint;
+alias xcb_visualid_t = uint;
+
 enum VK_KHR_xcb_surface = 1;
 enum VK_KHR_XCB_SURFACE_SPEC_VERSION   = 6;
 enum VK_KHR_XCB_SURFACE_EXTENSION_NAME = "VK_KHR_xcb_surface";
@@ -46,7 +49,7 @@ struct VkXcbSurfaceCreateInfoKHR {
   VkStructureType            sType     ;
   const(void)*               pNext     ;
   VkXcbSurfaceCreateFlagsKHR flags     ;
-  xcb_connection_t*          connection;
+  XCBConnectionHandle        connection;
   xcb_window_t               window    ;
 }
 
@@ -56,10 +59,10 @@ alias PFN_vkCreateXcbSurfaceKHR = nothrow
                      , const(VkAllocationCallbacks)*     pAllocator
                      , VkSurfaceKHR*                     pSurface );
 alias PFN_vkGetPhysicalDeviceXcbPresentationSupportKHR = nothrow 
-    VkBool32 function( VkPhysicalDevice  physicalDevice
-                     , uint              queueFamilyIndex
-                     , xcb_connection_t* connection
-                     , xcb_visualid_t    visual_id );
+    VkBool32 function( VkPhysicalDevice    physicalDevice
+                     , uint                queueFamilyIndex
+                     , XCBConnectionHandle connection
+                     , xcb_visualid_t      visual_id );
 
 mixin template XCBFunctions() {
   PFN_vkCreateXcbSurfaceKHR                        vkCreateXcbSurfaceKHR;
@@ -77,8 +80,8 @@ version (none) {
                                 , const(VkXcbSurfaceCreateInfoKHR)* pCreateInfo
                                 , const(VkAllocationCallbacks)*     pAllocator
                                 , VkSurfaceKHR*                     pSurface );
-  VkBool32 vkGetPhysicalDeviceXcbPresentationSupportKHR( VkPhysicalDevice  physicalDevice
-                                                       , uint              queueFamilyIndex
-                                                       , xcb_connection_t* connection
-                                                       , xcb_visualid_t    visual_id);
+  VkBool32 vkGetPhysicalDeviceXcbPresentationSupportKHR( VkPhysicalDevice    physicalDevice
+                                                       , uint                queueFamilyIndex
+                                                       , XCBConnectionHandle connection
+                                                       , xcb_visualid_t      visual_id);
 }

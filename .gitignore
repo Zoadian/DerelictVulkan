@@ -1,5 +1,5 @@
 .dub
-dub.*
+dub.selections.*
 bin
 docs.json
 __dummy.html

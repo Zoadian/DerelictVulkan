@@ -35,8 +35,9 @@ public {
   import derelict.vulkan.types;
 }
 
-// TODO: add import of data related to Mir protocol
-// #include <mir_toolkit/client_types.h>
+mixin VK_DEFINE_NON_DISPATCHABLE_HANDLE!"MirConnectionHandle";
+mixin VK_DEFINE_NON_DISPATCHABLE_HANDLE!"MirSurfaceHandle";
+
 enum VK_KHR_mir_surface = 1;
 enum VK_KHR_MIR_SURFACE_SPEC_VERSION   = 4;
 enum VK_KHR_MIR_SURFACE_EXTENSION_NAME = "VK_KHR_mir_surface";
@@ -47,8 +48,8 @@ struct VkMirSurfaceCreateInfoKHR {
   VkStructureType            sType     ;
   const(void)*               pNext     ;
   VkMirSurfaceCreateFlagsKHR flags     ;
-  MirConnection*             connection;
-  MirSurface*                mirSurface;
+  MirConnectionHandle        connection;
+  MirSurfaceHandle           mirSurface;
 }
 
 alias PFN_vkCreateMirSurfaceKHR = nothrow 
@@ -57,9 +58,9 @@ alias PFN_vkCreateMirSurfaceKHR = nothrow
                      , const(VkAllocationCallbacks)*     pAllocator
                      , VkSurfaceKHR*                     pSurface );
 alias PFN_vkGetPhysicalDeviceMirPresentationSupportKHR = nothrow 
-    VkBool32 function( VkPhysicalDevice physicalDevice
-                     , uint queueFamilyIndex
-                     , MirConnection* connection);
+    VkBool32 function( VkPhysicalDevice    physicalDevice
+                     , uint                queueFamilyIndex
+                     , MirConnectionHandle connection);
 
 mixin template MirFunctions() {
   PFN_vkCreateMirSurfaceKHR                        vkCreateMirSurfaceKHR;
@@ -77,7 +78,7 @@ version (none) {
                                 , const(VkMirSurfaceCreateInfoKHR)* pCreateInfo
                                 , const(VkAllocationCallbacks)*     pAllocator
                                 , VkSurfaceKHR*                     pSurface );
-  VkBool32 vkGetPhysicalDeviceMirPresentationSupportKHR( VkPhysicalDevice physicalDevice
-                                                       , uint             queueFamilyIndex
-                                                       , MirConnection*   connection );
+  VkBool32 vkGetPhysicalDeviceMirPresentationSupportKHR( VkPhysicalDevice    physicalDevice
+                                                       , uint                queueFamilyIndex
+                                                       , MirConnectionHandle connection );
 }
