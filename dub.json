@@ -8,5 +8,14 @@
 	"targetType": "library",
 	"dependencies": {
 		"derelict-util" : ">=3.0.0-alpha.1"
-	}
+	},
+	"configurations": [
+		{
+			"name": "default",	
+		},
+		{
+			"name": "wayland",
+			"versions": ["VK_USE_PLATFORM_WAYLAND_KHR"],
+		}
+	]
 }
